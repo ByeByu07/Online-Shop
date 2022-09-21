@@ -7,10 +7,11 @@ export default function Header({props}){
   return <>
     <div className="navbar bg-base-100 headerme">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">Shopku</a>
+        <a className="btn btn-ghost normal-case text-xl">SiOlShop</a>
       </div>
-      {/* <div className="form-control w-full mx-20 sm:invisible">
-      <input type="text" placeholder="Search" className="input input-bordered w-full" />
+      {/* <div className="form-control w-full mx-20 flex flex-row">
+        <input type="text" placeholder="Search Products Here" className="input input-bordered flex-1" />
+        <button type="submit" className="bg-orange-500 text-white p-3 flex-none">SUBSCRIBE</button>
       </div> */}
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -30,10 +31,11 @@ export default function Header({props}){
             </div>
           </div>
         </div>
+        <div className="mr-4 ">CART</div>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="https://placeimg.com/80/80/people" />
+              <img src="https://img.icons8.com/material-rounded/48/1A1A1A/user-male-circle.png"/>
             </div>
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
@@ -49,14 +51,15 @@ export default function Header({props}){
                 <li><a>Logout</a></li> 
               </> : <>
                 <li>
-                  <a className="justify-between">
+                  <Link href={route('login')}>
                     Login
-                  </a>
+                  </Link>
                 </li>
                 </>
             }
           </ul>
         </div>
+        <div>ACCOUNT</div>
       </div>
       <button className="btn btn-square btn-ghost sm:hidden">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
