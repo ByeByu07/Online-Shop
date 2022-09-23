@@ -31,7 +31,7 @@ export default function Header({props,handleToggleCartModal}){
             </div>
           </div>
         </div>
-        <div className="mr-4 ">CART</div>
+        {/* <div className="mr-4 ">CART</div> */}
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
@@ -42,10 +42,9 @@ export default function Header({props,handleToggleCartModal}){
             {
               props.auth.user ? <>
                 <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
+                  <Link href={route('register')}>
+                    Dashboard
+                  </Link>
                 </li>
                 <li><a>Settings</a></li>
                 <li><a>Logout</a></li> 
@@ -59,7 +58,7 @@ export default function Header({props,handleToggleCartModal}){
             }
           </ul>
         </div>
-        <div>ACCOUNT</div>
+        {/* <div>ACCOUNT</div> */}
       </div>
       <button className="btn btn-square btn-ghost sm:hidden">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
