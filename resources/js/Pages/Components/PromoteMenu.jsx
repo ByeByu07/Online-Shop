@@ -8,7 +8,7 @@ export default function PromoteMenu(props){
       <button className="btn btn-outline mr-2">DISCOUNT</button>
       <button className="btn btn-outline ">BESTSELLER</button>
   </div>
-  <div className='mt-5 flex flex-wrap' id="menu1">
+  <div className='mt-5 flex flex-wrap gap-3' id="menu1">
     {Menu1.length != 0 ? Menu1.map((menu,i)=>{
         return <PromoteMenuItem key={i} menu={menu}/>
     }) : <p className="shadowme1 p-5 w-full">No Products in current tab at this time</p>}

@@ -16,7 +16,8 @@ export default function Authenticated({ auth, header, children }) {
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto text-gray-500" />
+                                    {/* <ApplicationLogo className="block h-9 w-auto text-gray-500" /> */}
+                                    <h1 className="block w-auto text-black border-b-2 border-indigo-600">SiOlShop </h1>
                                 </Link>
                             </div>
 
@@ -26,23 +27,18 @@ export default function Authenticated({ auth, header, children }) {
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('products')}>
+                                <NavLink href={route('products')} active={route().current('products')}>
                                    Products
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('products')}>
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex tooltip" data-tip="coming soon">
+                                <NavLink href={route('dashboard')} active={route().current('analytics')}>
                                    Analytics
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('products')}>
+                                <NavLink href={route('dashboard')} active={route().current('add_admin')}>
                                    Add New Admin
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('products')}>
-                                   About Dev
                                 </NavLink>
                             </div>
                         </div>
