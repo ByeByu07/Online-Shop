@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('image');
             $table->text('description')->nullable();
             $table->float('discount')->nullable();
-            $table->string('status', 100);
+            $table->string('status', 100)->nullable();
             $table->text('tag');
             $table->boolean('new')->nullable();
             $table->timestamps();

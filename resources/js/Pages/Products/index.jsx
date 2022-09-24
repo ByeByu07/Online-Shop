@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
 import PromoteMenuItem from '../Components/PromoteMenuItem';
+import { Box, Button, FormControl, Input, InputAdornment, InputLabel, Modal, TextField, Typography } from '@mui/material';
+import { Inertia } from '@inertiajs/inertia';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height:"70%",
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
 
 export default function Products(props) {
+
+    const [addModal,setAddModal]=useState(false);
+    const [title,setTitle] = useState("");
+    const [description,setDescription]= useState("");
+    const [amount,setAmount]=useState("");
+    const [tag,setTag]=useState("");
+    const [image,setImage]=useState(null);
+
+    const viewAddModal = () =>{
+        setAddModal((add)=>!add);
+    }
+
+    const postCreateProduct = () => {
+        try{
+            Inertia.post("/products/create",{
+                title,description,amount,tag,image
+            })
+        }catch(err){
+            console.log(err);
+        }
+        // viewAddModal();
+    }
+
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -11,7 +48,49 @@ export default function Products(props) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Products</h2>}
         >
             <Head title="Products" />
-
+            <div className='w-full pt-6 px-8'>
+                <button className='btn btn-success btn-md' onClick={viewAddModal}>+ Products</button>
+                <Modal
+                open={addModal}
+                onClose={viewAddModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" className='uppercase'>
+                        Add New Product
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className='flex flex-col gap-10 '>
+                            <TextField label="Your Title" variant="standard" value={title} onChange={ e => setTitle(e.target.value)} error={props.errors.title}/>
+                            <TextField label="Your Description" variant="standard" multiline rows={5} value={description} onChange={ e => setDescription(e.target.value)} error={props.errors.description}/>
+                            <Typography  className='flex gap-5'>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
+                                    <Input
+                                        id="standard-adornment-amount"
+                                        value={amount}
+                                        onChange={e=>setAmount(e.target.value)}
+                                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                        error={props.errors.amount}
+                                    />
+                                </FormControl>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel htmlFor="standard-adornment-amount">Image</InputLabel>
+                                    <Input
+                                        id="standard-adornment-amount"
+                                        onChange={e=>setImageFile(e.target.files[0])}
+                                        type={"file"}
+                                        startAdornment={<InputAdornment position="start">-</InputAdornment>}
+                                        error={props.errors.image}
+                                    />
+                                </FormControl>
+                            </Typography>
+                            <TextField label="Your Tag" variant="standard" multiline rows={3} placeholder="Separate by comma (,)" value={tag} onChange={e=>setTag(e.target.value)} error={props.errors.tag}/>
+                            <Button color='success' fullWidth={true} variant="contained" onClick={postCreateProduct}>Add</Button>
+                    </Typography>
+                </Box>
+                </Modal>
+            </div>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex gap-3 flex-wrap">
                   {props.products.length != 0 ? props.products.map((menu,i)=>{
@@ -22,3 +101,4 @@ export default function Products(props) {
         </AuthenticatedLayout>
     );
 }
+

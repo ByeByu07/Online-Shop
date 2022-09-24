@@ -14,4 +14,16 @@ class ProductsController extends Controller
             'products' => $products->all()
         ]);
     }
+
+    public function create(Request $request)
+    {
+        dd($request);
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'amount' => 'required | numeric',
+            'tag' => 'required',
+            'image' => 'file | required'
+        ]);
+    }
 }

@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/products', [ProductsController::class, 'index'])->name('products');
+Route::post('/products/create', [ProductsController::class, 'create'])->name('products.create');
 
 Route::get('/view/v1/{product}');
 require __DIR__ . '/auth.php';
