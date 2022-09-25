@@ -31,7 +31,7 @@ export default function Dashboard(props) {
                                     <tr>
                                         <th>Email</th>
                                         <td>:</td>
-                                        <td className='capitalize'>{props.auth.user.email}</td>
+                                        <td>{props.auth.user.email}</td>
                                     </tr>
                                 </tbody>
                             </table>

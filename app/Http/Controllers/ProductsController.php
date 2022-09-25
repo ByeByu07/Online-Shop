@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\ValidatedInput;
 use Inertia\Inertia;
 
 class ProductsController extends Controller
@@ -17,13 +18,23 @@ class ProductsController extends Controller
 
     public function create(Request $request)
     {
-        dd($request);
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'amount' => 'required | numeric',
+            'price' => 'required | numeric',
             'tag' => 'required',
-            'image' => 'file | required'
+            'image' => ' required | file | image '
         ]);
+
+        $data['image'] = $request->file('image')->store('image');
+
+        $data['new'] = true;
+        $data['status'] = "new";
+        $data['discount'] = 0;
+
+        // dd($data);
+        Product::create($data);
+
+        return;
     }
 }

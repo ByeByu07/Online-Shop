@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/inertia-react';
+import { Head, useForm } from '@inertiajs/inertia-react';
 import PromoteMenuItem from '../Components/PromoteMenuItem';
 import { Box, Button, FormControl, Input, InputAdornment, InputLabel, Modal, TextField, Typography } from '@mui/material';
 import { Inertia } from '@inertiajs/inertia';
 
-const style = {
+/**
+ * Download data from the specified URL.
+ *
+ * @async
+ * @function downloadData
+ * @param {string} url - The URL to download from.
+ * @return {Promise<string>} The data from the URL.
+ */
+
+const styleModal = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -19,26 +28,29 @@ const style = {
 
 export default function Products(props) {
 
+    const {data,setData,post,progress} = useForm({
+        title:"",
+        description:"",
+        price:"",
+        tag:"",
+        image:null
+    })
+
     const [addModal,setAddModal]=useState(false);
-    const [title,setTitle] = useState("");
-    const [description,setDescription]= useState("");
-    const [amount,setAmount]=useState("");
-    const [tag,setTag]=useState("");
-    const [image,setImage]=useState(null);
 
     const viewAddModal = () =>{
         setAddModal((add)=>!add);
     }
 
-    const postCreateProduct = () => {
+    const postCreateProduct = (e) => {
         try{
-            Inertia.post("/products/create",{
-                title,description,amount,tag,image
+            e.preventDefault()
+            post("/products/create",{
+                onSuccess:()=>viewAddModal()
             })
         }catch(err){
             console.log(err);
         }
-        // viewAddModal();
     }
 
     return (
@@ -56,37 +68,39 @@ export default function Products(props) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 >
-                <Box sx={style}>
+                <Box sx={styleModal}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" className='uppercase'>
                         Add New Product
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className='flex flex-col gap-10 '>
-                            <TextField label="Your Title" variant="standard" value={title} onChange={ e => setTitle(e.target.value)} error={props.errors.title}/>
-                            <TextField label="Your Description" variant="standard" multiline rows={5} value={description} onChange={ e => setDescription(e.target.value)} error={props.errors.description}/>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} >
+                        <form action="post" className='flex flex-col gap-10 ' onSubmit={postCreateProduct}>
+                            <TextField label="Your Title" variant="standard" value={data.title} onChange={ e => setData('title',e.target.value)} error={props.errors.title}/>
+                            <TextField label="Your Description" variant="standard" multiline rows={5} value={data.description} onChange={ e => setData('description',e.target.value)} error={props.errors.description}/>
                             <Typography  className='flex gap-5'>
                                 <FormControl fullWidth variant="standard">
                                     <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
                                     <Input
                                         id="standard-adornment-amount"
-                                        value={amount}
-                                        onChange={e=>setAmount(e.target.value)}
+                                        value={data.price}
+                                        onChange={e=>setData('price',e.target.value)}
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                        error={props.errors.amount}
+                                        error={props.errors.price}
                                     />
                                 </FormControl>
                                 <FormControl fullWidth variant="standard">
                                     <InputLabel htmlFor="standard-adornment-amount">Image</InputLabel>
                                     <Input
                                         id="standard-adornment-amount"
-                                        onChange={e=>setImageFile(e.target.files[0])}
-                                        type={"file"}
+                                        onChange={e=>setData('image',e.target.files[0])}
+                                        type="file"
                                         startAdornment={<InputAdornment position="start">-</InputAdornment>}
                                         error={props.errors.image}
                                     />
                                 </FormControl>
                             </Typography>
-                            <TextField label="Your Tag" variant="standard" multiline rows={3} placeholder="Separate by comma (,)" value={tag} onChange={e=>setTag(e.target.value)} error={props.errors.tag}/>
-                            <Button color='success' fullWidth={true} variant="contained" onClick={postCreateProduct}>Add</Button>
+                            <TextField label="Your Tag" variant="standard" multiline rows={3} placeholder="Separate by comma (,)" value={data.tag} onChange={e=>setData('tag',e.target.value)} error={props.errors.tag}/>
+                            <Button color='success' fullWidth={true} variant="contained" type='submit'>Add</Button>
+                        </form>
                     </Typography>
                 </Box>
                 </Modal>

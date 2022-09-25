@@ -30,8 +30,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/products', [ProductsController::class, 'index'])->name('products');
-Route::post('/products/create', [ProductsController::class, 'create'])->name('products.create');
+Route::get('/products', [ProductsController::class, 'index'])->middleware(['auth', 'verified'])->name('products');
+Route::post('/products/create', [ProductsController::class, 'create'])->middleware(['auth', 'verified'])->name('products.create');
 
 Route::get('/view/v1/{product}');
 require __DIR__ . '/auth.php';
